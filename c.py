@@ -26,7 +26,7 @@ class Lexer:
         self.value = None
         self.sym = None
         while self.sym == None:
-            print(self.ch, self.count)
+            #print(self.ch, self.count)
             if self.count == len(self.read) - 1:
                 self.sym = Lexer.EOF
             elif self.ch.isspace():
@@ -214,19 +214,19 @@ class Compiler:
             self.gen(node.op1.value)
         elif node.kind == Parser.IF1:
             self.compile(node.op1)
-            self.gen(JZ);
-            addr = self.pc;
-            self.gen(0);
+            self.gen(JZ)
+            addr = self.pc
+            self.gen(0)
             self.compile(node.op2)
             self.program[addr] = self.pc
         elif node.kind == Parser.IF2:
             self.compile(node.op1)
-            self.gen(JZ);
-            addr1 = self.pc;
+            self.gen(JZ)
+            addr1 = self.pc
             self.gen(0)
             self.compile(node.op2)
-            self.gen(JMP);
-            addr2 = self.pc;
+            self.gen(JMP)
+            addr2 = self.pc
             self.gen(0)
             self.program[addr1] = self.pc
             self.compile(node.op3)
@@ -234,27 +234,27 @@ class Compiler:
         elif node.kind == Parser.WHILE:
             addr1 = self.pc
             self.compile(node.op1)
-            self.gen(JZ);
-            addr2 = self.pc;
+            self.gen(JZ)
+            addr2 = self.pc
             self.gen(0)
             self.compile(node.op2)
-            self.gen(JMP);
-            self.gen(addr1);
+            self.gen(JMP)
+            self.gen(addr1)
             self.program[addr2] = self.pc
         elif node.kind == Parser.DO:
             addr = self.pc
             self.compile(node.op1)
             self.compile(node.op2)
-            self.gen(JNZ);
-            self.gen(addr);
+            self.gen(JNZ)
+            self.gen(addr)
         elif node.kind == Parser.SEQ:
             self.compile(node.op1)
             self.compile(node.op2)
         elif node.kind == Parser.EXPR:
-            self.compile(node.op1);
+            self.compile(node.op1)
             self.gen(IPOP)
         elif node.kind == Parser.PROG:
-            self.compile(node.op1);
+            self.compile(node.op1)
             self.gen(HALT)
         return self.program
 
@@ -317,3 +317,4 @@ c = Compiler()
 program = c.compile(ast)
 vm = VirtualMachine()
 vm.run(program)
+
